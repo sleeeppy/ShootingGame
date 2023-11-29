@@ -1,7 +1,7 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public TextMeshProUGUI scoreText;
     public Image[] lifeImage;
+    public Image[] boomImage;
     public GameObject gameOverSet;
 
     void Update()
@@ -68,6 +69,19 @@ public class GameManager : MonoBehaviour
             lifeImage[i].color = new Color(1, 1, 1, 1);
         }
     }
+    public void UpdateBoomIcon(int boom)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            boomImage[i].color = new Color(1, 1, 1, 0);
+        }
+
+        for (int i = 0; i < boom; i++)
+        {
+            boomImage[i].color = new Color(1, 1, 1, 1);
+        }
+    }
+
     public void RespawnPlayer()
     {
         Invoke("RespawnPlayerExe", 2f);

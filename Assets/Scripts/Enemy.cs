@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
@@ -66,19 +65,17 @@ public class Enemy : MonoBehaviour
     {
         curShotDelay += Time.deltaTime;
     }
-    void OnHit(int dmg)
+    public void OnHit(int dmg)
     {
         health -= dmg;
         spriteRenderer.sprite = sprites[1];
         Invoke("ReturnSprite", 0.1f);
+
         if(health <= 0)
         {
             Player playerLogic = player.GetComponent<Player>();
-            if (playerLogic != null)
-            {
-                playerLogic.score += enemyScore;
-                Destroy(gameObject);
-            }
+            playerLogic.score += enemyScore;
+            Destroy(gameObject);
         } 
     }
 
