@@ -163,3 +163,6 @@ MonoBehaviour:
   bulletObjA: {fileID: 9132479040097752848, guid: 0aa42eb35614bad42972e95ee7ddec82, type: 3}
   bulletObjB: {fileID: 9132479040097752848, guid: 1c0dd55845709784bb4bfdf6fa41cb93, type: 3}
   player: {fileID: 0}
+  itemCoin: {fileID: 6391314716980654157, guid: 6392460f9512bab4581bffa5ae56f5c1, type: 3}
+  itemPower: {fileID: 1707393628618211359, guid: 1f9af1f4ff41bd14681fef49868b41ef, type: 3}
+  itemBoom: {fileID: 6921173660628326580, guid: ff9086f9c64e43c4a8f13be96db96e65, type: 3}
