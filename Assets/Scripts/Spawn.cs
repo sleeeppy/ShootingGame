@@ -7,5 +7,4 @@ public class Spawn : MonoBehaviour
     public float delay;
     public string type;
     public int point;
-
 }

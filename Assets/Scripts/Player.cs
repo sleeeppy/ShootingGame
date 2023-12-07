@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     public GameManager gameManager;
     public ObjectManager objectManager;
 
+    public GameObject[] followers;
+
     public bool isHit;
     public bool isBoomTime;
     Animator animator;
@@ -96,7 +98,7 @@ public class Player : MonoBehaviour
 
                 break;
 
-            case 3:
+            default:
                 GameObject bulletRR = objectManager.MakeObj("BulletPlayerA");
                 bulletRR.transform.position = transform.position + Vector3.right * 0.35f;
 
@@ -167,6 +169,7 @@ public class Player : MonoBehaviour
 
         GameObject[] bulletsA = objectManager.GetPool("BulletEnemyA");
         GameObject[] bulletsB = objectManager.GetPool("BulletEnemyB");
+
         for (int i = 0; i < bulletsA.Length; i++)
         {
             if (bulletsA[i].activeSelf)
@@ -240,7 +243,10 @@ public class Player : MonoBehaviour
                     if (power == maxPower)
                         score += 500;
                     else
+                    {
                         power++;
+                        AddFollower();
+                    }
                     break;
                 case "Boom":
                     if (boom == maxBoom)
@@ -255,6 +261,16 @@ public class Player : MonoBehaviour
             }
             collision.gameObject.SetActive(false);
         }
+    }
+
+    void AddFollower()
+    {
+        if (power == 4)
+            followers[0].SetActive(true);
+        else if (power == 5)
+            followers[1].SetActive(true);
+        else if (power == 6)
+            followers[2].SetActive(true);
     }
     void OffBoomEffect()
     {
