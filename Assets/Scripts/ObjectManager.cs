@@ -15,6 +15,8 @@ public class ObjectManager : MonoBehaviour
     public GameObject BulletEnemyAPrefab;
     public GameObject BulletEnemyBPrefab;
     public GameObject BulletFollowerPrefab;
+    public GameObject BulletBossAPrefab;
+    public GameObject BulletBossBPrefab;
 
     GameObject[] enemyL;
     GameObject[] enemyM;
@@ -29,6 +31,8 @@ public class ObjectManager : MonoBehaviour
     GameObject[] bulletEnemyA;
     GameObject[] bulletEnemyB;
     GameObject[] bulletFollower;
+    GameObject[] bulletBossA;
+    GameObject[] bulletBossB;
 
     GameObject[] targetPool;
 
@@ -47,6 +51,8 @@ public class ObjectManager : MonoBehaviour
         bulletEnemyA = new GameObject[100];
         bulletEnemyB = new GameObject[100];
         bulletFollower = new GameObject[100];
+        bulletBossA = new GameObject[50];
+        bulletBossB = new GameObject[1000];
 
         Generate();
     }
@@ -108,6 +114,18 @@ public class ObjectManager : MonoBehaviour
             bulletFollower[i] = Instantiate(BulletFollowerPrefab);
             bulletFollower[i].SetActive(false);
         }
+
+        for (int i = 0; i < bulletBossA.Length; i++)
+        {
+            bulletBossA[i] = Instantiate(BulletBossAPrefab);
+            bulletBossA[i].SetActive(false);
+        }
+
+        for (int i = 0; i < bulletBossB.Length; i++)
+        {
+            bulletBossB[i] = Instantiate(BulletBossBPrefab);
+            bulletBossB[i].SetActive(false);
+        }
     }
 
     public GameObject MakeObj(string type)
@@ -146,6 +164,12 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "BulletFollower":
                 targetPool = bulletFollower;
+                break;
+            case "BulletBossA":
+                targetPool = bulletBossA;
+                break;
+            case "BulletBossB":
+                targetPool = bulletBossB;
                 break;
         }
 
@@ -197,6 +221,12 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "BulletFollower":
                 targetPool = bulletFollower;
+                break;
+            case "BulletBossA":
+                targetPool = bulletBossA;
+                break;
+            case "BulletBossB":
+                targetPool = bulletBossB;
                 break;
         }
         return targetPool;

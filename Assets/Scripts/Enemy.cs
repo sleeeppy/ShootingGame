@@ -22,10 +22,13 @@ public class Enemy : MonoBehaviour
     public ObjectManager objectManager;
 
     SpriteRenderer spriteRenderer;
+    Animator anim;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if(enemyName =="B")
+            anim = GetComponent<Animator>();
     }
 
     void OnEnable()
@@ -45,6 +48,9 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
+        if (enemyName == "B")
+            return;
+
         Fire();
         Reload();
     }
@@ -93,15 +99,22 @@ public class Enemy : MonoBehaviour
             return;
 
         health -= dmg;
-        spriteRenderer.sprite = sprites[1];
-        Invoke("ReturnSprite", 0.1f);
+        if(enemyName == "B")
+        {
+            anim.SetTrigger("OnHit");
+        }
+        else
+        {
+            spriteRenderer.sprite = sprites[1];
+            Invoke("ReturnSprite", 0.1f);
+        }
 
         if (health <= 0)
         {
             Player playerLogic = player.GetComponent<Player>();
             playerLogic.score += enemyScore;
 
-            int ran = Random.Range(0, 10);
+            int ran = enemyName == "B" ? 0 : Random.Range(0, 10);
             if (ran < 4) // 40%
                 Debug.Log("Not Item");
             else if (ran < 8) // 40%
@@ -132,7 +145,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "BorderBullet")
+        if (collision.gameObject.tag == "BorderBullet" && enemyName != "B")
         {   
             gameObject.SetActive(false);
             transform.rotation = Quaternion.identity;
