@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         spawnList = new List<Spawn>();
-        enemyObjs = new string[] { "EnemyS", "EnemyM", "EnemyL" };
+        enemyObjs = new string[] { "EnemyS", "EnemyM", "EnemyL", "EnemyB" };
         ReadSpawnFile();
     }
 
@@ -85,6 +85,9 @@ public class GameManager : MonoBehaviour
                 break;
             case "L":
                 enemyi = 2;
+                break;
+            case "B":
+                enemyi = 3;
                 break;
         }
         int enemyPoint = spawnList[spawni].point;
