@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         switch (enemyName)
         {
             case "B":
-                health = 3000;
+                health = 1000;
                 Invoke("Stop", 2);
                 break;
             case "L":
@@ -92,6 +92,9 @@ public class Enemy : MonoBehaviour
 
     void FireFoward()
     {
+        if (health <= 0) 
+            return;
+
         GameObject bulletR = objectManager.MakeObj("BulletBossA");
         bulletR.transform.position = transform.position + Vector3.right * 0.3f;
         GameObject bulletRR = objectManager.MakeObj("BulletBossA");
@@ -120,8 +123,11 @@ public class Enemy : MonoBehaviour
     }
 
     void FireShot()
-    {   
-        for(int i = 0; i < 5; i++)
+    {
+        if (health <= 0)
+            return;
+
+        for (int i = 0; i < 5; i++)
         {
             GameObject bullet = objectManager.MakeObj("BulletEnemyB");
             bullet.transform.position = transform.position;
@@ -143,6 +149,9 @@ public class Enemy : MonoBehaviour
 
     void FireArc()
     {
+        if (health <= 0)
+            return;
+
         GameObject bullet = objectManager.MakeObj("BulletEnemyA");
         bullet.transform.position = transform.position;
         bullet.transform.rotation = Quaternion.identity;
@@ -161,6 +170,9 @@ public class Enemy : MonoBehaviour
 
     void FireAround()
     {
+        if (health <= 0)
+            return;
+
         int roundNumA = 50;
         int roundNumB = 40;
         int roundNum = curPatternCount % 2 == 0 ? roundNumA : roundNumB;
@@ -277,7 +289,10 @@ public class Enemy : MonoBehaviour
 
             gameObject.SetActive(false);
             transform.rotation = Quaternion.identity;
-            gameManager.CallExplosion(transform.position, enemyName);         
+            gameManager.CallExplosion(transform.position, enemyName);
+
+            if (enemyName == "B")
+                gameManager.StageEnd();
         } 
     }
 

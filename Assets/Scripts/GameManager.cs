@@ -7,6 +7,12 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+    public int stage;
+    public Animator stageAnim;
+    public Animator clearAnim;
+    public Animator fadeAnim;
+    public Transform playerPos;
+
     public string[] enemyObjs;
     public Transform[] spawnPoints;
 
@@ -28,7 +34,31 @@ public class GameManager : MonoBehaviour
     {
         spawnList = new List<Spawn>();
         enemyObjs = new string[] { "EnemyS", "EnemyM", "EnemyL", "EnemyB" };
+        StageStart();
+    }
+
+    public void StageStart()
+    {
+        stageAnim.SetTrigger("On");
+        stageAnim.GetComponent<TextMeshProUGUI>().text = "Stage " + stage + "\nStart";
+        clearAnim.GetComponent<TextMeshProUGUI>().text = "Stage " + stage + "\nClear!";
+
         ReadSpawnFile();
+        fadeAnim.SetTrigger("In");
+    }
+
+    public void StageEnd()
+    {
+        clearAnim.SetTrigger("On");
+        fadeAnim.SetTrigger("Out");
+
+        player.transform.position = playerPos.position;
+
+        stage++;
+        if (stage < 2)
+            Invoke("GameOver", 6);
+        else
+            Invoke("StageStart", 5);
     }
 
     void ReadSpawnFile()
@@ -37,7 +67,7 @@ public class GameManager : MonoBehaviour
         spawni = 0;
         spawnEnd = false;
 
-        TextAsset textFile = Resources.Load("Stage 0") as TextAsset;
+        TextAsset textFile = Resources.Load("Stage " + stage) as TextAsset;
         StringReader stringreader = new StringReader(textFile.text);
 
         while(stringreader != null)
