@@ -26,14 +26,47 @@ public class Player : MonoBehaviour
     public ObjectManager objectManager;
 
     public GameObject[] followers;
+    public bool isRespawnTime;
 
     public bool isHit;
     public bool isBoomTime;
+    public bool[] joyControl;
+    public bool isControl;
+    public bool isButtonA;
+    public bool isButtonB;
+
     Animator animator;
+    SpriteRenderer spriteRenderer;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    void OnEnable()
+    {
+        Unbeatable();
+        Invoke("Unbeatable", 3);
+    }
+
+    void Unbeatable()
+    {
+        isRespawnTime = !isRespawnTime;
+        if (isRespawnTime)
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+
+            for(int i = 0; i < followers.Length; i++)
+                followers[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        }
+        else
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 1);
+
+            for (int i = 0; i < followers.Length; i++)
+                followers[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        }
     }
     void Update()
     {
@@ -43,14 +76,42 @@ public class Player : MonoBehaviour
         Reload();
     }
 
+    public void JoyPanel(int type)
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            joyControl[i] = i == type;
+        }
+    }
+
+    public void JoyDown()
+    {
+        isControl = true;
+    }
+
+    public void JoyUp()
+    {
+        isControl = false;
+    }
     void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
-        if ((isTouchRight && h == 1) || (isTouchLeft && h == -1))
+        float v = Input.GetAxisRaw("Vertical");
+
+        if (joyControl[0]) { h = -1; v = 1; }
+        if (joyControl[1]) { h = 0; v = 1; }
+        if (joyControl[2]) { h = 1; v = 1; }
+        if (joyControl[3]) { h = -1; v = 0; }
+        if (joyControl[4]) { h = 0; v = 0; }
+        if (joyControl[5]) { h = 1; v = 0; }
+        if (joyControl[6]) { h = 1; v = -1; }
+        if (joyControl[7]) { h = 0; v = -1; }
+        if (joyControl[8]) { h = -1; v = -1; }
+
+        if ((isTouchRight && h == 1) || (isTouchLeft && h == -1) || !isControl)
             h = 0;
 
-        float v = Input.GetAxisRaw("Vertical");
-        if ((isTouchTop && v == 1) || (isTouchBottom && v == -1))
+        if ((isTouchTop && v == 1) || (isTouchBottom && v == -1) || !isControl)
             v = 0;
 
         Vector3 curPos = transform.position;
@@ -65,9 +126,28 @@ public class Player : MonoBehaviour
 
     }
 
+    public void ButtonADown()
+    {
+        isButtonA = false;
+    }
+
+    public void ButtonAUp()
+    {
+        isButtonA = true;
+    }
+
+
+    public void ButtonBDown()
+    {
+        isButtonB = true;
+    }
+
     void Fire()
     {
-        if (!Input.GetButton("Fire1"))
+        //if (!Input.GetButton("Fire1"))
+        //    return;
+
+        if (isButtonA)
             return;
 
         if (curShotDelay < maxShotDelay)
@@ -124,10 +204,15 @@ public class Player : MonoBehaviour
 
     void Boom()
     {
-        if (!Input.GetButton("Fire2"))
+        //if (!Input.GetButton("Fire2"))
+        //    return;
+
+        if (!isButtonB)
             return;
+
         if (isBoomTime)
             return;
+
         if (boom == 0)
             return;
 
@@ -212,12 +297,16 @@ public class Player : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyBullet")
         {
+            if (isRespawnTime)
+                return;
+
             if (isHit)
                 return;
 
             isHit = true;
             life--;
             gameManager.UpdateLifeIcon(life);
+            gameManager.CallExplosion(transform.position, "P");
 
             if (life == 0)
             {
