@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class Enemy : MonoBehaviour
 
     void OnEnable()
     {
+        // HP settings
         switch (enemyName)
         {
             case "B":
@@ -59,6 +61,7 @@ public class Enemy : MonoBehaviour
 
     void Stop()
     {
+        // Boss wait time
         if (!gameObject.activeSelf)
             return;
 
@@ -70,6 +73,9 @@ public class Enemy : MonoBehaviour
 
     void Think()
     {
+        // Boss patterns
+
+        // patterni must be set starting from -1 ( in Inspecter )
         patterni = patterni == 3 ? 0 : patterni + 1;
         curPatternCount = 0;
 
@@ -92,6 +98,7 @@ public class Enemy : MonoBehaviour
 
     void FireFoward()
     {
+        // Pattern 1
         if (health <= 0) 
             return;
 
@@ -124,6 +131,7 @@ public class Enemy : MonoBehaviour
 
     void FireShot()
     {
+        // Pattern 2
         if (health <= 0)
             return;
 
@@ -133,6 +141,8 @@ public class Enemy : MonoBehaviour
             bullet.transform.position = transform.position;
 
             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+
+            // Fires with a small random value added to the player's direction
             Vector2 dirVec = player.transform.position - transform.position;
             Vector2 ranVec = new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(0f, 2f));
             dirVec += ranVec;
@@ -149,6 +159,7 @@ public class Enemy : MonoBehaviour
 
     void FireArc()
     {
+        // Pattern 3
         if (health <= 0)
             return;
 
@@ -157,11 +168,15 @@ public class Enemy : MonoBehaviour
         bullet.transform.rotation = Quaternion.identity;
 
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+
+        // Fire in a curved line
         Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 10 * curPatternCount / maxPatternCount[patterni]), -1);
         rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
 
         curPatternCount++;
 
+        // Set maxPatternCount to odd number
+        // -> The bullet's trajectory continues to change.
         if (curPatternCount < maxPatternCount[patterni])
             Invoke("FireArc", 0.15f);
         else
@@ -170,6 +185,7 @@ public class Enemy : MonoBehaviour
 
     void FireAround()
     {
+        // Pattern 4
         if (health <= 0)
             return;
 
@@ -184,6 +200,8 @@ public class Enemy : MonoBehaviour
             bullet.transform.rotation = Quaternion.identity;
 
             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+
+            // Fire in a circle
             Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 2 * i / roundNum)
                                         ,Mathf.Sin(Mathf.PI * 2 * i / roundNum));
             rigid.AddForce(dirVec.normalized * 2, ForceMode2D.Impulse);
@@ -214,7 +232,8 @@ public class Enemy : MonoBehaviour
         if (curShotDelay < maxShotDelay)
             return;
 
-        if(enemyName == "S")
+        // Fire bullets according to enemy type
+        if (enemyName == "S")
         {
             GameObject bullet = objectManager.MakeObj("BulletEnemyA");
             bullet.transform.position = transform.position;
@@ -243,17 +262,21 @@ public class Enemy : MonoBehaviour
 
         curShotDelay = 0;
     }
+
     void Reload()
     {
         curShotDelay += Time.deltaTime;
     }
+
     public void OnHit(int dmg)
     {
         if (health <= 0)
             return;
 
         health -= dmg;
-        if(enemyName == "B")
+
+        // Changes to sprite when hit
+        if (enemyName == "B")
         {
             anim.SetTrigger("OnHit");
         }
@@ -263,12 +286,14 @@ public class Enemy : MonoBehaviour
             Invoke("ReturnSprite", 0.1f);
         }
 
+        // Item drop when killing an enemy
         if (health <= 0)
         {
             Player playerLogic = player.GetComponent<Player>();
             playerLogic.score += enemyScore;
 
             int ran = enemyName == "B" ? 0 : Random.Range(0, 10);
+
             if (ran < 4) // 40%
                 Debug.Log("Not Item");
             else if (ran < 8) // 40%
@@ -291,6 +316,7 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.identity;
             gameManager.CallExplosion(transform.position, enemyName);
 
+            // Clear the stage by killing the boss
             if (enemyName == "B")
                 gameManager.StageEnd();
         } 
@@ -303,6 +329,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        // Delete bullet when it touches something
         if (collision.gameObject.tag == "BorderBullet" && enemyName != "B")
         {   
             gameObject.SetActive(false);

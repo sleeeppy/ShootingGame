@@ -12,7 +12,8 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if ( collision.gameObject.tag == "BorderBullet")
+        // Delete bullets when they leave the screen
+        if ( collision.gameObject.tag == "BorderBullet" )
         {
             gameObject.SetActive(false);
         }

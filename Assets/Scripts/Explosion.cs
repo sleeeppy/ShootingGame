@@ -25,6 +25,7 @@ public class Explosion : MonoBehaviour
     {
         animator.SetTrigger("OnExplosion");
 
+        // Set explosion animation size to match enemy size
         switch (target)
         {
             case "S":

@@ -67,6 +67,12 @@ public class GameManager : MonoBehaviour
         spawni = 0;
         spawnEnd = false;
 
+        // Example of creating a text file
+        // 1. Please be sure to set the file name to ¡°Stage N¡±.
+        // 2. Please be sure to write in the format of "delay, type, point".
+        // 3. Please do not enter anything other than these.
+
+        // Load text file matching stage variable
         TextAsset textFile = Resources.Load("Stage " + stage) as TextAsset;
         StringReader stringreader = new StringReader(textFile.text);
 
@@ -99,6 +105,8 @@ public class GameManager : MonoBehaviour
         }
 
         Player playerLogic = player.GetComponent<Player>();
+
+        // Formatting
         scoreText.text = string.Format("{0:n0}", playerLogic.score);
     }
 
@@ -120,6 +128,8 @@ public class GameManager : MonoBehaviour
                 enemyi = 3;
                 break;
         }
+
+        // Spawning Enemies
         int enemyPoint = spawnList[spawni].point;
         GameObject enemy = objectManager.MakeObj(enemyObjs[enemyi]);
         enemy.transform.position = spawnPoints[enemyPoint].position;
@@ -156,7 +166,8 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateLifeIcon(int life)
     {
-        for(int i = 0; i < 3; i++)
+        // Life icon set
+        for (int i = 0; i < 3; i++)
         {
             lifeImage[i].color = new Color(1, 1, 1, 0);
         }
@@ -168,6 +179,7 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateBoomIcon(int boom)
     {
+        // Boom icon set
         for (int i = 0; i < 3; i++)
         {
             boomImage[i].color = new Color(1, 1, 1, 0);
@@ -191,12 +203,14 @@ public class GameManager : MonoBehaviour
         player.transform.position = Vector3.down * 3.5f;
         player.SetActive(true);
 
+        // Apply respawn invincibility
         Player playerLogic = player.GetComponent<Player>();
         playerLogic.isHit = false;
     }
 
     public void CallExplosion(Vector3 pos, string type)
     {
+        // Explosion effect playback
         GameObject explosion = objectManager.MakeObj("Explosion");
         Explosion explosionLogic = explosion.GetComponent<Explosion>();
 

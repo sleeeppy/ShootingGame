@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Follower : MonoBehaviour
@@ -29,7 +28,8 @@ public class Follower : MonoBehaviour
     }
 
     void Watch()
-    {       
+    {
+        // Store the player's location using a queue with a FIFO structure
         if (!parentPos.Contains(parent.position))
             parentPos.Enqueue(parent.position);
 
@@ -41,6 +41,8 @@ public class Follower : MonoBehaviour
         
     void Follow()
     {
+        // The first follower is the player, and the remaining followers each
+        // set the follower in front of them as the parent. ( in Inspecter )
         transform.position = followPos;
     }
 

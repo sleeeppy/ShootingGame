@@ -21,7 +21,8 @@ public class Background : MonoBehaviour
     }
 
     void Move()
-    {
+    {   
+        // Move the map
         Vector3 curPos = transform.position;
         Vector3 nextPos = Vector3.down * speed * Time.deltaTime;
         transform.position = curPos + nextPos;
@@ -29,10 +30,10 @@ public class Background : MonoBehaviour
 
     void Scrolling()
     {
+        // Reusing maps
         if (sprites[endi].position.y < viewHeight * (-1))
         {
             Vector3 backSpritePos = sprites[starti].localPosition;
-            Vector3 frontSpritePos = sprites[endi].localPosition;
             sprites[endi].transform.localPosition = backSpritePos + Vector3.up * viewHeight;
 
             int startiSave = starti;
