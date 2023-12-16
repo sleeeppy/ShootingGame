@@ -224,6 +224,7 @@ public class GameManager : MonoBehaviour
 
     public void GameRetry()
     {
+        // Restart the game
         SceneManager.LoadScene(0);
     }
 }

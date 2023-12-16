@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
+    // Object Pooling 
+    // This is a technique used to optimize game performance
+    // and involves reusing pre-created game objects.
+
+    // Manage creation all objects
     public GameObject enemyBPreafab;
     public GameObject enemyLPrefab;
     public GameObject enemyMPrefab;
@@ -65,7 +70,8 @@ public class ObjectManager : MonoBehaviour
 
     void Generate()
     {
-        for(int i = 0; i < enemyB.Length; i++)
+        // Generating and Deactivating Objects
+        for (int i = 0; i < enemyB.Length; i++)
         {
             enemyB[i] = Instantiate(enemyBPreafab);
             enemyB[i].SetActive(false);
@@ -148,6 +154,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject MakeObj(string type)
     {
+        // Activates the target object when calling a method
+        // with the object name as a parameter.
         switch (type)
         {
             case "EnemyB":
@@ -211,6 +219,8 @@ public class ObjectManager : MonoBehaviour
 
     public GameObject[] GetPool(string type)
     {
+        // Returns a pool of different types of game objects
+        // depending on the given string type.
         switch (type)
         {
             case "EnemyB":
@@ -259,6 +269,7 @@ public class ObjectManager : MonoBehaviour
                 targetPool = explosion;
                 break;
         }
+
         return targetPool;
     }
 }
