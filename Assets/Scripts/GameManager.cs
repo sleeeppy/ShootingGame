@@ -203,7 +203,6 @@ public class GameManager : MonoBehaviour
         player.transform.position = Vector3.down * 3.5f;
         player.SetActive(true);
 
-        // Apply respawn invincibility
         Player playerLogic = player.GetComponent<Player>();
         playerLogic.isHit = false;
     }

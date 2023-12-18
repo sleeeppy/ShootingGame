@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
 
     void Unbeatable()
     {
+        // Apply unbeatable when spawning
         isRespawnTime = !isRespawnTime;
         if (isRespawnTime)
         {
@@ -95,6 +96,7 @@ public class Player : MonoBehaviour
     }
     void Move()
     {
+        // Control with joy panel
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour
         if (joyControl[7]) { h = 0; v = -1; }
         if (joyControl[8]) { h = -1; v = -1; }
 
+        // Set so that it does not go out of range
         if ((isTouchRight && h == 1) || (isTouchLeft && h == -1) || !isControl)
             h = 0;
 
@@ -128,12 +131,12 @@ public class Player : MonoBehaviour
 
     public void ButtonADown()
     {
-        isButtonA = false;
+        isButtonA = true;
     }
 
     public void ButtonAUp()
     {
-        isButtonA = true;
+        isButtonA = false;
     }
 
 
@@ -144,10 +147,8 @@ public class Player : MonoBehaviour
 
     void Fire()
     {
-        //if (!Input.GetButton("Fire1"))
-        //    return;
-
-        if (isButtonA)
+        // Fire a bullet when buttonA is held down
+        if (!isButtonA)
             return;
 
         if (curShotDelay < maxShotDelay)
@@ -155,6 +156,7 @@ public class Player : MonoBehaviour
 
         switch (power)
         {
+            // Strengthens bullets fired when power increases (up to 3 only)
             case 1:
                 GameObject bullet = objectManager.MakeObj("BulletPlayerA");
                 bullet.transform.position = transform.position;
@@ -204,9 +206,7 @@ public class Player : MonoBehaviour
 
     void Boom()
     {
-        //if (!Input.GetButton("Fire2"))
-        //    return;
-
+        // When button B is pressed, it explodes
         if (!isButtonB)
             return;
 
@@ -227,7 +227,8 @@ public class Player : MonoBehaviour
         GameObject[] enemiesM = objectManager.GetPool("EnemyM");
         GameObject[] enemiesS = objectManager.GetPool("EnemyS");
 
-        for(int i = 0; i < enemiesL.Length; i++)
+        // Kill all enemies ( except boss )
+        for (int i = 0; i < enemiesL.Length; i++)
         {
             if (enemiesL[i].activeSelf)
             {
@@ -255,6 +256,7 @@ public class Player : MonoBehaviour
         GameObject[] bulletsA = objectManager.GetPool("BulletEnemyA");
         GameObject[] bulletsB = objectManager.GetPool("BulletEnemyB");
 
+        // Delete all enemy bullets
         for (int i = 0; i < bulletsA.Length; i++)
         {
             if (bulletsA[i].activeSelf)
@@ -275,6 +277,7 @@ public class Player : MonoBehaviour
     {
         curShotDelay += Time.deltaTime;
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Border")
@@ -303,11 +306,13 @@ public class Player : MonoBehaviour
             if (isHit)
                 return;
 
+            // Reduces health when hit by enemies or enemy bullets
             isHit = true;
             life--;
             gameManager.UpdateLifeIcon(life);
             gameManager.CallExplosion(transform.position, "P");
 
+            // If health is 0, game over
             if (life == 0)
             {
                 gameManager.GameOver();
@@ -322,13 +327,17 @@ public class Player : MonoBehaviour
         }
         else if(collision.gameObject.tag == "Item")
         {
+            // When you reach an item
+
             Item item = collision.gameObject.GetComponent<Item>();
             switch (item.type)
             {
                 case "Coin":
+                    // score increase
                     score += 1000;
                     break;
                 case "Power":
+                    // Only score points when power is at maximum
                     if (power == maxPower)
                         score += 500;
                     else
@@ -338,6 +347,7 @@ public class Player : MonoBehaviour
                     }
                     break;
                 case "Boom":
+                    // The score only increases when you have the maximum number of bombs.
                     if (boom == maxBoom)
                         score += 500;
                     else
@@ -348,25 +358,10 @@ public class Player : MonoBehaviour
 
                     break;
             }
+            // Remove Item
             collision.gameObject.SetActive(false);
         }
     }
-
-    void AddFollower()
-    {
-        if (power == 4)
-            followers[0].SetActive(true);
-        else if (power == 5)
-            followers[1].SetActive(true);
-        else if (power == 6)
-            followers[2].SetActive(true);
-    }
-    void OffBoomEffect()
-    {
-        boomEffect.SetActive(false);
-        isBoomTime = false;
-    }
-
     void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Border")
@@ -387,5 +382,20 @@ public class Player : MonoBehaviour
                     break;
             }
         }
+    }
+    void AddFollower()
+    {
+        // Add followers when power is 4 or more (can have up to 3)
+        if (power == 4)
+            followers[0].SetActive(true);
+        else if (power == 5)
+            followers[1].SetActive(true);
+        else if (power == 6)
+            followers[2].SetActive(true);
+    }
+    void OffBoomEffect()
+    {
+        boomEffect.SetActive(false);
+        isBoomTime = false;
     }
 }
