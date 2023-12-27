@@ -145,6 +145,11 @@ public class Player : MonoBehaviour
         isButtonB = true;
     }
 
+    public void ButtonBUp()
+    {
+        isButtonB = false;
+    }
+
     void Fire()
     {
         // Fire a bullet when buttonA is held down
@@ -355,7 +360,13 @@ public class Player : MonoBehaviour
                         boom++;
                         gameManager.UpdateBoomIcon(boom);
                     }
-
+                    break;
+                case "HP":
+                    if (life <= 3)
+                    {
+                        life++;
+                        gameManager.UpdateLifeIcon(life);
+                    }
                     break;
             }
             // Remove Item

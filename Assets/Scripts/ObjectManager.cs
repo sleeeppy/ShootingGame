@@ -16,6 +16,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject itemCoinPrefab;
     public GameObject itemBoomPrefab;
     public GameObject itemPowerPrefab;
+    public GameObject itemHPPrefab;
     public GameObject BulletPlayerAPrefab;
     public GameObject BulletPlayerBPrefab;
     public GameObject BulletEnemyAPrefab;
@@ -25,6 +26,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject BulletBossBPrefab;
     public GameObject explosionPrefab;
 
+
     GameObject[] enemyB;
     GameObject[] enemyL;
     GameObject[] enemyM;
@@ -33,6 +35,7 @@ public class ObjectManager : MonoBehaviour
     GameObject[] itemPower;
     GameObject[] itemBoom;
     GameObject[] itemCoin;
+    GameObject[] itemHP;
 
     GameObject[] bulletPlayerA;
     GameObject[] bulletPlayerB;
@@ -55,6 +58,7 @@ public class ObjectManager : MonoBehaviour
         itemCoin = new GameObject[20];
         itemPower = new GameObject[10];
         itemBoom = new GameObject[10];
+        itemHP = new GameObject[10];
 
         bulletPlayerA = new GameObject[100];
         bulletPlayerB = new GameObject[100];
@@ -107,6 +111,12 @@ public class ObjectManager : MonoBehaviour
             itemPower[i].SetActive(false);
         }
 
+        for (int i = 0; i < itemHP.Length; i++)
+        {
+            itemHP[i] = Instantiate(itemHPPrefab);
+            itemHP[i].SetActive(false);
+        }
+
         for (int i = 0; i < bulletPlayerA.Length; i++) {
             bulletPlayerA[i] = Instantiate(BulletPlayerAPrefab);
             bulletPlayerA[i].SetActive(false);
@@ -150,6 +160,7 @@ public class ObjectManager : MonoBehaviour
             explosion[i] = Instantiate(explosionPrefab);
             explosion[i].SetActive(false);
         }
+
     }
 
     public GameObject MakeObj(string type)
@@ -178,6 +189,9 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "ItemBoom":
                 targetPool = itemBoom;
+                break;
+            case "ItemHP":
+                targetPool = itemHP;
                 break;
             case "BulletPlayerA":
                 targetPool = bulletPlayerA;
@@ -243,6 +257,9 @@ public class ObjectManager : MonoBehaviour
                 break;
             case "ItemBoom":
                 targetPool = itemBoom;
+                break;
+            case "ItemHP":
+                targetPool = itemHP;
                 break;
             case "BulletPlayerA":
                 targetPool = bulletPlayerA;

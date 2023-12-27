@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             return;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject bullet = objectManager.MakeObj("BulletEnemyB");
             bullet.transform.position = transform.position;
@@ -189,8 +189,8 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             return;
 
-        int roundNumA = 50;
-        int roundNumB = 40;
+        int roundNumA = 25;
+        int roundNumB = 20;
         int roundNum = curPatternCount % 2 == 0 ? roundNumA : roundNumB;
 
         for(int i = 0; i < roundNum; i++)
@@ -311,6 +311,11 @@ public class Enemy : MonoBehaviour
                 GameObject itemBoom = objectManager.MakeObj("ItemBoom");
                 itemBoom.transform.position = transform.position;
             }
+            /* else if (ran < 10) // 5%
+            {
+                GameObject itemHP = objectManager.MakeObj("ItemHP");
+                itemHP.transform.position = transform.position;
+            }*/
 
             gameObject.SetActive(false);
             transform.rotation = Quaternion.identity;
@@ -343,6 +348,5 @@ public class Enemy : MonoBehaviour
 
             collision.gameObject.SetActive(false);
         }
-
     }
 }
