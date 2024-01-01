@@ -1394,6 +1394,7 @@ MonoBehaviour:
   itemCoinPrefab: {fileID: 6391314716980654157, guid: 6392460f9512bab4581bffa5ae56f5c1, type: 3}
   itemBoomPrefab: {fileID: 6921173660628326580, guid: ff9086f9c64e43c4a8f13be96db96e65, type: 3}
   itemPowerPrefab: {fileID: 1707393628618211359, guid: 1f9af1f4ff41bd14681fef49868b41ef, type: 3}
+  itemHPPrefab: {fileID: 4788466201830298232, guid: d35fe468f0327f34191538287a3ae0db, type: 3}
   BulletPlayerAPrefab: {fileID: 9132479040097752848, guid: 63f0819f8ee97754aaa8b47460b2a4e3, type: 3}
   BulletPlayerBPrefab: {fileID: 9132479040097752848, guid: 84a9a760f7b21a647a5f3e78802b7b3b, type: 3}
   BulletEnemyAPrefab: {fileID: 9132479040097752848, guid: 0aa42eb35614bad42972e95ee7ddec82, type: 3}
