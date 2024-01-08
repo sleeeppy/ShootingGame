@@ -76,45 +76,18 @@ public class Player : MonoBehaviour
         Boom();
         Reload();
     }
-
-    public void JoyPanel(int type)
-    {
-        for(int i = 0; i < 9; i++)
-        {
-            joyControl[i] = i == type;
-        }
-    }
-
-    public void JoyDown()
-    {
-        isControl = true;
-    }
-
-    public void JoyUp()
-    {
-        isControl = false;
-    }
     void Move()
     {
         // Control with joy panel
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        if (joyControl[0]) { h = -1; v = 1; }
-        if (joyControl[1]) { h = 0; v = 1; }
-        if (joyControl[2]) { h = 1; v = 1; }
-        if (joyControl[3]) { h = -1; v = 0; }
-        if (joyControl[4]) { h = 0; v = 0; }
-        if (joyControl[5]) { h = 1; v = 0; }
-        if (joyControl[6]) { h = 1; v = -1; }
-        if (joyControl[7]) { h = 0; v = -1; }
-        if (joyControl[8]) { h = -1; v = -1; }
 
         // Set so that it does not go out of range
-        if ((isTouchRight && h == 1) || (isTouchLeft && h == -1) || !isControl)
+        if ((isTouchRight && h == 1) || (isTouchLeft && h == -1))
             h = 0;
 
-        if ((isTouchTop && v == 1) || (isTouchBottom && v == -1) || !isControl)
+        if ((isTouchTop && v == 1) || (isTouchBottom && v == -1))
             v = 0;
 
         Vector3 curPos = transform.position;
@@ -129,31 +102,10 @@ public class Player : MonoBehaviour
 
     }
 
-    public void ButtonADown()
-    {
-        isButtonA = true;
-    }
-
-    public void ButtonAUp()
-    {
-        isButtonA = false;
-    }
-
-
-    public void ButtonBDown()
-    {
-        isButtonB = true;
-    }
-
-    public void ButtonBUp()
-    {
-        isButtonB = false;
-    }
 
     void Fire()
     {
-        // Fire a bullet when buttonA is held down
-        if (!isButtonA)
+        if (!Input.GetMouseButton(0))
             return;
 
         if (curShotDelay < maxShotDelay)
@@ -211,8 +163,8 @@ public class Player : MonoBehaviour
 
     void Boom()
     {
-        // When button B is pressed, it explodes
-        if (!isButtonB)
+
+        if (!Input.GetMouseButtonDown(1))
             return;
 
         if (isBoomTime)

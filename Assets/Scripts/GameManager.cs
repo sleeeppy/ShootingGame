@@ -219,11 +219,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOverSet.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void GameRetry()
     {
         // Restart the game
         SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
     }
 }

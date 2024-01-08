@@ -116,10 +116,10 @@ public class Enemy : MonoBehaviour
         Rigidbody2D rigidL = bulletL.GetComponent<Rigidbody2D>();
         Rigidbody2D rigidLL = bulletLL.GetComponent<Rigidbody2D>();
 
-        rigidR.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
-        rigidRR.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
-        rigidL.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
-        rigidLL.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
+        rigidR.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
+        rigidRR.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
+        rigidL.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
+        rigidLL.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
 
         curPatternCount++;
 
@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             return;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             GameObject bullet = objectManager.MakeObj("BulletEnemyB");
             bullet.transform.position = transform.position;
@@ -144,9 +144,9 @@ public class Enemy : MonoBehaviour
 
             // Fires with a small random value added to the player's direction
             Vector2 dirVec = player.transform.position - transform.position;
-            Vector2 ranVec = new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(0f, 2f));
+            Vector2 ranVec = new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 5f));
             dirVec += ranVec;
-            rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+            rigid.AddForce(dirVec.normalized * 6, ForceMode2D.Impulse);
         }
 
         curPatternCount++;
@@ -170,7 +170,7 @@ public class Enemy : MonoBehaviour
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
 
         // Fire in a curved line
-        Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 10 * curPatternCount / maxPatternCount[patterni]), -1);
+        Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 5 * curPatternCount / maxPatternCount[patterni]), -1);
         rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
 
         curPatternCount++;
@@ -178,7 +178,7 @@ public class Enemy : MonoBehaviour
         // Set maxPatternCount to odd number
         // -> The bullet's trajectory continues to change.
         if (curPatternCount < maxPatternCount[patterni])
-            Invoke("FireArc", 0.15f);
+            Invoke("FireArc", 0.12f);
         else
             Invoke("Think", 3);
     }
@@ -189,8 +189,8 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
             return;
 
-        int roundNumA = 25;
-        int roundNumB = 20;
+        int roundNumA = 20;
+        int roundNumB = 19;
         int roundNum = curPatternCount % 2 == 0 ? roundNumA : roundNumB;
 
         for(int i = 0; i < roundNum; i++)

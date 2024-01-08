@@ -160,8 +160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: B
   speed: 1.5
-  health: 3000
-  enemyScore: 5000
+  health: 1000
+  enemyScore: 10000
   sprites: []
   curShotDelay: 0
   maxShotDelay: 0
@@ -172,6 +172,7 @@ MonoBehaviour:
   itemBoom: {fileID: 0}
   player: {fileID: 0}
   objectManager: {fileID: 0}
+  gameManager: {fileID: 0}
   patterni: -1
   curPatternCount: 0
-  maxPatternCount: 0200000003000000630000000a000000
+  maxPatternCount: 0200000003000000310000000a000000
