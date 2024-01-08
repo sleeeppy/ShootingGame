@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public float curSpawnDelay;
 
     public GameObject player;
+    public GameObject follower;
     public TextMeshProUGUI scoreText;
     public Image[] lifeImage;
     public Image[] boomImage;

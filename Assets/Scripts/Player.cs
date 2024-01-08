@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;  
 
 public class Player : MonoBehaviour
@@ -76,12 +75,12 @@ public class Player : MonoBehaviour
         Boom();
         Reload();
     }
+
     void Move()
     {
         // Control with joy panel
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-
 
         // Set so that it does not go out of range
         if ((isTouchRight && h == 1) || (isTouchLeft && h == -1))
@@ -94,14 +93,7 @@ public class Player : MonoBehaviour
         Vector3 nextPos = new Vector3(h, v, 0) * speed * Time.deltaTime;
 
         transform.position = curPos + nextPos;
-
-        if (Input.GetButtonDown("Horizontal") || Input.GetButtonUp("Horizontal"))
-        {
-            animator.SetInteger("Input", (int)h);
-        }
-
     }
-
 
     void Fire()
     {
@@ -163,8 +155,7 @@ public class Player : MonoBehaviour
 
     void Boom()
     {
-
-        if (!Input.GetMouseButtonDown(1))
+        if (!Input.GetMouseButton(1))
             return;
 
         if (isBoomTime)

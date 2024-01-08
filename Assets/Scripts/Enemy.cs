@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -90,7 +91,7 @@ public class Enemy : MonoBehaviour
             case 2:
                 FireArc();
                 break;
-            case 3:
+            case 3:   
                 FireAround();
                 break;
         }
@@ -116,10 +117,10 @@ public class Enemy : MonoBehaviour
         Rigidbody2D rigidL = bulletL.GetComponent<Rigidbody2D>();
         Rigidbody2D rigidLL = bulletLL.GetComponent<Rigidbody2D>();
 
-        rigidR.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
-        rigidRR.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
-        rigidL.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
-        rigidLL.AddForce(Vector2.down * 10, ForceMode2D.Impulse);
+        rigidR.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
+        rigidRR.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
+        rigidL.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
+        rigidLL.AddForce(Vector2.down * 8, ForceMode2D.Impulse);
 
         curPatternCount++;
 
@@ -144,7 +145,7 @@ public class Enemy : MonoBehaviour
 
             // Fires with a small random value added to the player's direction
             Vector2 dirVec = player.transform.position - transform.position;
-            Vector2 ranVec = new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 5f));
+            Vector2 ranVec = new Vector2(Random.Range(-1f, 1f), Random.Range(0f, 4f));
             dirVec += ranVec;
             rigid.AddForce(dirVec.normalized * 6, ForceMode2D.Impulse);
         }
@@ -178,7 +179,7 @@ public class Enemy : MonoBehaviour
         // Set maxPatternCount to odd number
         // -> The bullet's trajectory continues to change.
         if (curPatternCount < maxPatternCount[patterni])
-            Invoke("FireArc", 0.12f);
+            Invoke("FireArc", 0.18f);
         else
             Invoke("Think", 3);
     }
